@@ -25,7 +25,7 @@ fun TaskList(
 ){
     LazyColumn {
         items(
-            items = fakeTasks,
+            items = tasks,
             key = { task -> task.id }
         ) { task ->
             TaskItem(
