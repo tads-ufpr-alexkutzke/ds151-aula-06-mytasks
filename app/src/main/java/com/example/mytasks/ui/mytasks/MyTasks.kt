@@ -21,7 +21,7 @@ fun MyTasks(){
             onClick = { tasks.add(Task(text=newTaskText, initialChecked = false)) }
         )
         TaskList(
-            tasks = tasks,
+            tasks = tasks.sortedWith(compareBy({ it.checked }, { it.text })),
             onCheckedChange = { task, newValue -> task.checked = newValue },
             onRemoveClick = { task -> tasks.remove(task) }
         )
