@@ -18,10 +18,12 @@ fun MyTasks(){
         NewTaskControl(
             onValueChange = {text -> newTaskText = text},
             value = newTaskText,
-            onClick = { tasks.add(Task(text=newTaskText, checked = false)) }
+            onClick = { tasks.add(Task(text=newTaskText, initialChecked = false)) }
         )
         TaskList(
             tasks = tasks,
+            onCheckedChange = { task, newValue -> task.checked = newValue },
+            onRemoveClick = { task -> tasks.remove(task) }
         )
     }
 }
