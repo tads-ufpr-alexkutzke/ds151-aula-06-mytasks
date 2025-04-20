@@ -3,9 +3,7 @@ package com.example.mytasks.ui.mytasks
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,7 +25,12 @@ fun MyTasks(
         TaskList(
             tasks = myTasksViewModel.tasks.sortedWith(compareBy({ it.checked }, { it.text })),
             onCheckedChange = { task, newValue -> task.checked = newValue },
-            onRemoveClick = { task -> myTasksViewModel.removeTask(task) }
+            onRemoveClick = { task -> myTasksViewModel.removeTask(task) },
+            onEditClick = { task ->
+                task.edit = true
+                task.editText = task.text
+            },
+            onEditTextChange = { task, newText -> task.editText = newText}
         )
     }
 }

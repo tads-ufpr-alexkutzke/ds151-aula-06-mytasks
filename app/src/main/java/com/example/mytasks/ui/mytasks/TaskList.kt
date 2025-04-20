@@ -11,25 +11,30 @@ import com.example.mytasks.ui.theme.MyTasksTheme
 import java.util.UUID
 
 class Task(
-    val text:String,
+    var text:String,
     val initialChecked: Boolean,
+    val initialEdit: Boolean = false,
 ){
     val id: UUID = UUID.randomUUID()
     var checked by mutableStateOf(initialChecked)
+    var editText by mutableStateOf("")
+    var edit by mutableStateOf(initialEdit)
 }
 
 val fakeTasks: List<Task> = listOf(
     Task(text="Comprar pão", initialChecked = false),
-    Task(text="Estudar DS151", initialChecked = false),
+    Task(text="Estudar DS151", initialChecked = false, initialEdit = true),
     Task(text="Criar app de Taferas", initialChecked = true),
     Task(text="Arrumar a casa", initialChecked = true),
 )
 
 @Composable
 fun TaskList(
-    tasks: List<Task> = emptyList<Task>(),
-    onRemoveClick: (Task) -> Unit = {task -> Unit},
+    tasks: List<Task> = fakeTasks,
+    onRemoveClick: (Task) -> Unit = {},
+    onEditClick: (Task) -> Unit = {},
     onCheckedChange: (Task, Boolean) -> Unit = {task, newValue -> Unit},
+    onEditTextChange: (Task, String) -> Unit = {task, newText -> Unit}
 ){
     LazyColumn {
         items(
@@ -37,10 +42,16 @@ fun TaskList(
             key = { task -> task.id }
         ) { task ->
             TaskItem(
-                text = task.text,
-                checked = task.checked,
+                task = task,
+                enabled = !task.edit,
                 onRemoveClick = { onRemoveClick(task) },
-                onCheckedChange = { newValue -> onCheckedChange(task, newValue) }
+                onEditClick = { onEditClick(task) },
+                onCheckedChange = { newValue -> onCheckedChange(task, newValue) },
+                onEditTextChange = { newText:String -> onEditTextChange(task, newText) },
+                onConfirmEditClick = {
+                    task.edit = false
+                    task.text = task.editText
+                }
             )
         }
     }
@@ -50,6 +61,14 @@ fun TaskList(
 @Preview
 @Composable
 fun TaskListPreview(){
+    MyTasksTheme {
+        TaskList()
+    }
+}
+
+@Preview
+@Composable
+fun TaskListEditingPreview(){
     MyTasksTheme {
         TaskList()
     }
