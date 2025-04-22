@@ -34,7 +34,8 @@ fun TaskList(
     onRemoveClick: (Task) -> Unit = {},
     onEditClick: (Task) -> Unit = {},
     onCheckedChange: (Task, Boolean) -> Unit = {task, newValue -> Unit},
-    onEditTextChange: (Task, String) -> Unit = {task, newText -> Unit}
+    onEditTextChange: (Task, String) -> Unit = {task, newText -> Unit},
+    onGotoDetailsClick: (Task) -> Unit = {}
 ){
     LazyColumn {
         items(
@@ -51,7 +52,8 @@ fun TaskList(
                 onConfirmEditClick = {
                     task.edit = false
                     task.text = task.editText
-                }
+                },
+                onGoToDetailsClick = { onGotoDetailsClick(task) }
             )
         }
     }

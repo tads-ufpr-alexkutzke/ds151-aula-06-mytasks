@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Checkbox
@@ -31,6 +33,7 @@ fun TaskItem(
     onEditClick: () -> Unit = {},
     onConfirmEditClick: () -> Unit = {},
     onEditTextChange: (String) -> Unit = {},
+    onGoToDetailsClick: () -> Unit = {},
 ){
     Column {
         Row(
@@ -54,6 +57,12 @@ fun TaskItem(
                     enabled = enabled
                 ) {
                     Icon(Icons.Filled.Close, contentDescription = "Remove")
+                }
+                IconButton(
+                    onClick = onGoToDetailsClick,
+                    enabled = enabled
+                ) {
+                    Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = "Ver detalhes")
                 }
             }
             else {

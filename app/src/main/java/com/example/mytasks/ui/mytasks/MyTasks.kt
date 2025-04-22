@@ -13,6 +13,7 @@ import com.example.mytasks.ui.theme.MyTasksTheme
 @Composable
 fun MyTasks(
     myTasksViewModel: MyTasksViewModel = viewModel(),
+    onGotoDetailsClick: (Task) -> Unit = {}
 ){
     var newTaskText by rememberSaveable { mutableStateOf("") }
 
@@ -24,13 +25,14 @@ fun MyTasks(
         )
         TaskList(
             tasks = myTasksViewModel.tasks.sortedWith(compareBy({ it.checked }, { it.text })),
-            onCheckedChange = { task, newValue -> task.checked = newValue },
+            onCheckedChange = { task, newValue -> myTasksViewModel.changeChecked(task,newValue) },
             onRemoveClick = { task -> myTasksViewModel.removeTask(task) },
             onEditClick = { task ->
                 task.edit = true
                 task.editText = task.text
             },
-            onEditTextChange = { task, newText -> task.editText = newText}
+            onEditTextChange = { task, newText -> task.editText = newText},
+            onGotoDetailsClick = { task -> onGotoDetailsClick(task) }
         )
     }
 }

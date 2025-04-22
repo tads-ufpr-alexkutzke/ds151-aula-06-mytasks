@@ -21,13 +21,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyTasksTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Surface(
-                        modifier = Modifier.padding(innerPadding)
-                    ){
-                        MyTasks()
-                    }
-                }
+                MyTasksApp()
             }
         }
     }
